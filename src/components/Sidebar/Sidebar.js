@@ -35,7 +35,7 @@ const structure = [
   
   
   { id: 2, label: "Add Car", link: "/app/addLocal", icon: <HomeIcon /> },
-  { id: 2, label: "Add Car", link: "/app/updateLocal/1", icon: <HomeIcon /> },
+  { id: 2, label: "Add Car", link: "/app/locals", icon: <TableIcon/> },
 ];
 
 function Sidebar({ location }) {

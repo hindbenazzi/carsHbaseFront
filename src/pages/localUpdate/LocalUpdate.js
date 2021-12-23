@@ -407,8 +407,8 @@ const [proprietaire, setProprietaire] = React.useState({
             </div>
             <Button  variant="contained"
                      size="medium"
-                     color="secondary" style={{marginLeft:"57%"}} onClick={updateLocal}>
-             Modifier Local
+                     color="secondary" style={{marginLeft:"67%"}} onClick={updateLocal}>
+             Update Car
             </Button>
             <br /><br />
         </ form>

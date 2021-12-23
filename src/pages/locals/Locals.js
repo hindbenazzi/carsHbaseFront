@@ -3,7 +3,7 @@ import { Grid ,Button} from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import MUIDataTable from "mui-datatables";
 import axios from "axios";
-import { Link } from 'react-router-dom';
+import { Link , Redirect} from 'react-router-dom';
 // components
 import PageTitle from "../../components/PageTitle";
 import { Add } from "@material-ui/icons";
@@ -11,11 +11,7 @@ import { Add } from "@material-ui/icons";
 
 
 const columns = [
-  {
-    label: "rowKey",
-    name: "rowKey",
-    
-  },
+  {name: "rowKey", label: "rowKey"},
   {
     
     label: "matricule",
@@ -59,22 +55,22 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 const baseURL = "http://localhost:18080/hbase/car/";
-const baseURL1 = "http://127.0.0.1:8000/local";
+const baseURL1 = "http://localhost:18080/hbase/car/";
 export default function Locals(props) {
   const classes = useStyles();
-  const [locals, setLocals] = React.useState([]);
+  const [values, setValues] = React.useState([]);
   const [selected, setSelected] = React.useState([]);
 
   const fetchData = async () => {
     await axios.get(baseURL).then((response)=>{
-      setLocals(response.data);
+      setValues(response.data);
       console.log(response.data)
     })
   }
 React.useEffect(() => {
   const fetchData = async () => {
     await axios.get(baseURL).then((response)=>{
-      setLocals(response.data);
+      setValues(response.data);
       console.log(response.data)
     })
     
@@ -86,24 +82,17 @@ fetchData()
   
 const onRowClick = (rowData, rowMeta) => {
   console.log("----RowClick");
-  console.log("rowData: ", rowData);
+  console.log("rowData: ", rowData[0]);
   console.log("rowMeta: ", rowMeta);
-   props.history.push({
-   pathname: "/app/updateLocal",
-   state: { local: {id:rowData[0] ,
-  nom:rowData[1],
-   description: rowData[2],
-   adresse: rowData[3],
-   prix : rowData[4],
-   capacite:"cap1",
-   type:rowData[5]
-  }}
-  })
+  props.history.push({
+    pathname: `/app/updateLocal/${rowData[0]}`})
+ 
+  
 }
   
   const deleteItem=async (uId)=>{
     axios
-  .delete(baseURL1+'/'+uId)
+  .delete(baseURL1+'RowKey/'+uId)
   .then(() => {
     fetchData()
     
@@ -114,9 +103,10 @@ const onRowClick = (rowData, rowMeta) => {
     console.log("All Selected: ", allRowsSelected);
     let ids=[];
     allRowsSelected.map((item)=>{
-      ids.push(locals[item.index].id)
+      ids.push(values[parseInt(item.index)].rowKey)
     })
     setSelected(ids)
+    console.log(selected)
   }
   const onRowsDelete= (rowsDeleted, newData) => {
     console.log('rowsDeleted');
@@ -124,7 +114,7 @@ const onRowClick = (rowData, rowMeta) => {
     selected.forEach((item,index)=>{
       deleteItem(item)
     })
-    console.log(locals[rowsDeleted.data[0].index].id)
+    console.log(values[rowsDeleted.data[0].index].rowKey)
   }
   const options = {
 		filterType: 'checkbox',
@@ -137,7 +127,7 @@ const onRowClick = (rowData, rowMeta) => {
  
   return (
     <>
-      <PageTitle title="Liste des locaux" button={<Link to="/app/addLocal"><Button
+      <PageTitle title="List of cars" button={<Link to="/app/addLocal"><Button
       variant="contained"
       size="medium"
       color="secondary"
@@ -146,7 +136,7 @@ const onRowClick = (rowData, rowMeta) => {
         <Grid item xs={12}>
           <MUIDataTable
             title="Liste des locaux"
-            data={locals}
+            data={values}
             columns={columns}
             options={options}
           />

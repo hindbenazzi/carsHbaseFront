@@ -44,7 +44,7 @@ const LocalAdd = () => {
       rowKey:""
   });
   const [carcs, setCaracs] = React.useState({
-        matricule:"mat",
+        matricule:"",
         fuel:"",
         transmission:"",
         nombrePorte:"",
@@ -394,8 +394,8 @@ const LocalAdd = () => {
             </div>
             <Button  variant="contained"
                      size="medium"
-                     color="secondary" style={{marginLeft:"57%"}} onClick={addLocal}>
-             Ajouter Local
+                     color="secondary" style={{marginLeft:"77%"}} onClick={addLocal}>
+             Add Car
             </Button>
             <br /><br />
         </ form>
